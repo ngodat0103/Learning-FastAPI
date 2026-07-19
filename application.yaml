@@ -1,0 +1,13 @@
+# Example only
+llm:
+  model: deepseek-chat
+  api_key: sk-...
+  base_url: https://api.deepseek.com
+
+mongodb:
+  uri: ${MONGO_URL}
+  db: myapp
+
+server:
+  host: 0.0.0.0
+  port: 8000

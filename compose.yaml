@@ -1,0 +1,25 @@
+name: learning-fast-api
+services:
+  mongodb:
+    image: mongo:8.3.4-noble
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: test
+      MONGO_INITDB_DATABASE: test
+    command: [ "--auth", "--setParameter", "enableTestCommands=1" ]
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      learning-fast-api:
+        ipv4_address: 192.168.28.2
+    expose:
+      - 27017
+networks:
+  learning-fast-api:
+    name: "learning-fast-api"
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.28.0/24
+volumes:
+  mongo_data:
