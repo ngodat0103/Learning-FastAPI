@@ -6,13 +6,7 @@ from http_server.openai.router import openai_compatible_router
 import uvicorn
 import config
 import os
-
-
-class AppState:
-    checkpointer: MongoDBSaver = None
-
-
-app_state = AppState()
+from deps import app_state
 
 
 @asynccontextmanager
@@ -21,10 +15,6 @@ async def lifespan(app: FastAPI):
     with MongoDBSaver.from_conn_string(app_config.mongodb.mongo_url) as checkpointer:
         app_state.checkpointer = checkpointer
         yield  # closes mongo connection on shutdown
-
-
-def get_checkpointer() -> MongoDBSaver:
-    return app_state.checkpointer
 
 
 app = FastAPI(version="beta", lifespan=lifespan)
