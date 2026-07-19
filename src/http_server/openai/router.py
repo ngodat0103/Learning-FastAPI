@@ -7,4 +7,4 @@ openai_compatible_router = APIRouter()
 @openai_compatible_router.post("/chat")
 async def chat(chat_request: OpenAICompatibleChatRequest) -> ChatCompletionMessage:
     # Todo interact with real langgraph operation here
-    return ChatCompletionMessage(name="opus",content="Dummy reply")
+    return ChatCompletionMessage(name="opus", content="Dummy reply")

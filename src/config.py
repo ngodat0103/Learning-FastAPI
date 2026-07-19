@@ -12,8 +12,7 @@ class LLMConfig(BaseModel):
 
 
 class MongoConfig(BaseModel):
-    uri: str
-    db: str
+    mongo_url: str
 
 
 class ServerConfig(BaseModel):
@@ -21,6 +20,7 @@ class ServerConfig(BaseModel):
     port: int = 8000
 
 
+## Todo Need a way to load here, not depend in FastAPI
 class AppConfig(BaseModel):
     llm: LLMConfig
     mongodb: MongoConfig
@@ -37,11 +37,14 @@ def load_config(config_path: str = "config.yaml") -> AppConfig:
 def resolve_env(loader: yaml.Loader, node: yaml.ScalarNode) -> str:
     value = loader.construct_scalar(node)
     pattern = re.compile(r"\$\{(\w+)(?::([^}]*))?}")
+
     def replacer(match: re.Match) -> str:
         var, default = match.group(1), match.group(2)
         result = os.environ.get(var, default)
         if result is None:
-            raise ValueError(f"Environment variable '{var}' is not set and has no default")
+            raise ValueError(
+                f"Environment variable '{var}' is not set and has no default"
+            )
         return result
 
     return pattern.sub(replacer, value)

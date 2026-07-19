@@ -5,8 +5,7 @@ llm:
   base_url: https://api.deepseek.com
 
 mongodb:
-  uri: ${MONGO_URL:default}
-  db: test
+  mongo_url: ${MONGO_URL:mongodb://test:test@192.168.28.2/test?authSource=admin&tls=false}
 server:
   host: 0.0.0.0
   port: 8000
